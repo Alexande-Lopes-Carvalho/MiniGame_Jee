@@ -25,7 +25,8 @@ var score;
 var time;
 
 function setup() {
-    createCanvas(400, 400);
+    var canvas = createCanvas(400, 400);
+    canvas.parent("sketchHolder");
     frameRate(60);
     setScreenMode(screen.START);
     startButton = new Button(width/2, height/2, 60, 20, "Start");
