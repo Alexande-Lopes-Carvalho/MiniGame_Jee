@@ -1,0 +1,1 @@
+<!-- page pour requête ajax n'ayant pas besoin de retour (pas necessaire mais empeche le lancement d'erreur 404 dans la console js) -->
