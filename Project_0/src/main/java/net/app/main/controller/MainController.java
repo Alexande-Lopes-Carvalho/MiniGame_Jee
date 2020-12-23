@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpSession;
+import java.security.Key;
+import java.util.Base64;
 import java.util.Optional;
 
 @Controller
@@ -30,13 +34,36 @@ public class MainController {
     @Autowired
     private UserDao userDao;
 
+    private String key = "e4o210Co69p5q7ks";
+    private Key aesKey = new SecretKeySpec(key.getBytes(), "AES");
+    private Cipher cipher = createCipher();
 
-    public String encode(String password){
-        return password;
+    private Cipher createCipher(){
+        try{
+            return Cipher.getInstance("AES");
+        } catch(Exception e){
+            return null;
+        }
+    }
+
+    public String encode(String password) {
+        try {
+            cipher.init(Cipher.ENCRYPT_MODE, aesKey);
+            //System.out.println(Base64.getEncoder().encodeToString(cipher.doFinal(password.getBytes())));
+            return Base64.getEncoder().encodeToString(cipher.doFinal(password.getBytes()));
+        } catch(Exception e){
+            return null;
+        }
     }
 
     public String decrypt(String encodedPassword){
-        return encodedPassword;
+        try {
+            cipher.init(Cipher.DECRYPT_MODE, aesKey);
+            //System.out.println(new String(cipher.doFinal(Base64.getDecoder().decode(encodedPassword))));
+            return new String(cipher.doFinal(Base64.getDecoder().decode(encodedPassword)));
+        } catch(Exception e){
+            return null;
+        }
     }
 
     public boolean matches(String rawPassword, String encodedPassword){
@@ -98,7 +125,7 @@ public class MainController {
         User u = new User();
         u.setName(name);
         u.setMail(mail);
-        u.setPassword(password);
+        u.setPassword(encode(password)); // Password à limiter en nb de char => cryptage peut depasser les 45 char sur bdd
         userDao.save(u);
         return showUser(m);
     }
