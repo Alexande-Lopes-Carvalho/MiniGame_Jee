@@ -1,12 +1,14 @@
 package net.app.main.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="gamerank")
 public class GameRank {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
   private long idgamerank;
   @Column(name="playername")
   private String playername;
@@ -16,6 +18,7 @@ public class GameRank {
   private long score;
   @Column(name="time")
   private long time;
+
 
 
   public long getIdgamerank() {
@@ -53,7 +56,6 @@ public class GameRank {
     this.score = score;
   }
 
-
   public long getTime() {
     return time;
   }
@@ -62,4 +64,8 @@ public class GameRank {
     this.time = time;
   }
 
+  public String toString() {
+    //return "id("+idgamerank+");player("+playername+");game("+gamename+");score("+score+");time("+time+")\n";
+    return idgamerank+";"+playername+";"+gamename+";"+score+";"+time+"\n";
+  }
 }
