@@ -25,6 +25,7 @@ var score;
 var time;
 
 function setup() {
+    currentGameName = "snakeDummy";
     var canvas = createCanvas(400, 400);
     canvas.parent("sketchHolder");
     frameRate(60);
@@ -107,11 +108,6 @@ function setScreenMode(s){
 function endGame(){
     setScreenMode(screen.ENDGAME);
     launchSaveScore();
-}
-
-function launchSaveScore(){
-    console.log("pass launchSaveScore");
-    saveScore("snakeDummy", score, time);
 }
 
 function spawnApple(){

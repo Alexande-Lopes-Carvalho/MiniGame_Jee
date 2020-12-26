@@ -1,4 +1,9 @@
+var currentGameName;
 
+function launchSaveScore(){
+    console.log("pass launchSaveScore");
+    saveScore(currentGameName, score, time);
+}
 
 function saveScore(game, score, time){
     httpRequest = new XMLHttpRequest();
