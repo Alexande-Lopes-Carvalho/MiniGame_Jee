@@ -24,16 +24,21 @@ function saveScore(game, score, time){
 
 // appeler à la fin d'une partie
 function refreshPageRanks(game){ // rafraichit le classement sur la page utilisateur (A REMPLIR)
-    // ...
-    putDataClassement(game);
-    dataClassementG(game);
+
+    var buttonMondial=document.getElementById("buttonMondial");
+    var buttonLocal=document.getElementById("buttonLocal");
+
+    if(buttonMondial.disabled){
+        dataClassementG(game);
+    }else{
+        putDataClassement(game);
+    }
     //console.log("refreshPageRanks");
 }
 
 function architecture(){
     var set = document.getElementById('buttons');
     set.innerHTML = "<button id=\"buttonLocal\" onclick=\"changerRank(0)\">Classement local</button> <button id=\"buttonMondial\" onclick=\"changerRank(1)\" disabled>Classement mondial</button>";
-
 }
 
 function changerRank(num){
