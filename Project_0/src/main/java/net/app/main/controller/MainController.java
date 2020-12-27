@@ -2,6 +2,7 @@ package net.app.main.controller;
 
 import net.app.main.dao.*;
 import net.app.main.model.GameRank;
+import net.app.main.model.Stat;
 import net.app.main.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -157,7 +158,26 @@ public class MainController {
             k.setTime(Long.valueOf(time));
             gameRankDao.save(k); // modification de l'element dans la table si deja existant ou ajout
         }
+        updateStat(game, score, session);
         return "ajaxAnswer/null";
+    }
+
+    public void updateStat(String game, String score, HttpSession session){
+        String playerName = (String) session.getAttribute("name");
+        if(playerName == null || !playerDao.existsById(playerName)){
+            return;
+        }
+        Stat k = statDao.findOneByPlayernameAndGamename(playerName, game);
+        if(k == null){
+            k = new Stat();
+            k.setGamename(game);
+            k.setPlayername(playerName);
+            k.setGameplayed(0);
+            k.setAveragescore(0);
+        }
+        k.setAveragescore((k.getGameplayed()*k.getAveragescore()+Long.valueOf(score))/((float) k.getGameplayed()+1));
+        k.setGameplayed(k.getGameplayed()+1);
+        statDao.save(k);
     }
 
     @RequestMapping("/connect")
