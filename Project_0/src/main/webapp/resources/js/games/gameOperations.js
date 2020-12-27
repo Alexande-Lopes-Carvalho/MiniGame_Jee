@@ -1,10 +1,15 @@
-function setupGameOperation(game){
-    architecture();
-    putDataClassement(game);
-    dataClassementG(game);
-}
-setupGameOperation("snakeDummy");
+var currentGameName;
 
+function setupGameOperation(){
+    architecture();
+    putDataClassement(currentGameName);
+    dataClassementG(currentGameName);
+}
+
+function launchSaveScore(){
+    console.log("pass launchSaveScore");
+    saveScore(currentGameName, score, time);
+}
 
 function saveScore(game, score, time){
     httpRequest = new XMLHttpRequest();
@@ -22,7 +27,7 @@ function refreshPageRanks(game){ // rafraichit le classement sur la page utilisa
     // ...
     putDataClassement(game);
     dataClassementG(game);
-    console.log("refreshPageRanks");
+    //console.log("refreshPageRanks");
 }
 
 function architecture(){
@@ -39,12 +44,12 @@ function changerRank(num){
         buttonLocal.disabled = true;
         buttonMondial.disabled = false;
         //set.innerHTML = "Classement Local";
-        putDataClassement("snakeDummy");
+        putDataClassement(currentGameName);
     }else{
         buttonMondial.disabled = true;
         buttonLocal.disabled = false;
         //set.innerHTML = "Classement Mondial";
-        dataClassementG("snakeDummy");
+        dataClassementG(currentGameName);
     }
 }
 

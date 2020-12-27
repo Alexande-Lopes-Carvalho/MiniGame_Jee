@@ -16,8 +16,8 @@ UNLOCK TABLES;
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('raven','nest@gmail.fr','bird');
-INSERT INTO `user` VALUES ('caique','betternest@gmail.fr','parrot');
+INSERT INTO `user` VALUES ('raven','nest@gmail.fr','DpFvIrNx87lTjdvoNIvyIw==');
+INSERT INTO `user` VALUES ('caique','betternest@gmail.fr','N93G9WsgK4xRpjXzqsx4sQ==');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
