@@ -54,3 +54,15 @@ INSERT INTO `gamerank` VALUES (6,'cockatiel','snakeDummy',8,9099);
 INSERT INTO `gamerank` VALUES (7,'macaw','snakeDummy',9,11678);     /* SI AJOUT AU SUPPRESSION D'ELEMENT DANS GAMERANK IL FAUT CHANGER LE AUTO INCREMENT DANS CREATE TABLE GAMERANK */
 /*!40000 ALTER TABLE `gamerank` ENABLE KEYS */;
 UNLOCK TABLES;
+
+LOCK TABLES `stat` WRITE;
+/*!40000 ALTER TABLE `stat` DISABLE KEYS */;
+INSERT INTO `stat` VALUES (1,'raven','snakeDummy',3,2.33333);
+INSERT INTO `stat` VALUES (2,'magpie','snakeDummy',3,2.33333);
+INSERT INTO `stat` VALUES (3,'crow','snakeDummy',2,3);
+INSERT INTO `stat` VALUES (4,'caique','snakeDummy',3,4);
+INSERT INTO `stat` VALUES (5,'conure','snakeDummy',2,4.5);
+INSERT INTO `stat` VALUES (6,'cockatiel','snakeDummy',2,4.5);
+INSERT INTO `stat` VALUES (7,'macaw','snakeDummy',3,4.33333);     /* SI AJOUT AU SUPPRESSION D'ELEMENT DANS GAMERANK IL FAUT CHANGER LE AUTO INCREMENT DANS CREATE TABLE GAMERANK */
+/*!40000 ALTER TABLE `stat` ENABLE KEYS */;
+UNLOCK TABLES;

@@ -129,7 +129,7 @@ CREATE TABLE `stat` (
   KEY `fk_stat_player_idx` (`playername`),
   CONSTRAINT `fk_stat_game` FOREIGN KEY (`gamename`) REFERENCES `game` (`name`),
   CONSTRAINT `fk_stat_player` FOREIGN KEY (`playername`) REFERENCES `player` (`playername`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

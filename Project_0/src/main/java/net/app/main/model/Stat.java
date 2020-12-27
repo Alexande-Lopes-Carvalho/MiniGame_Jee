@@ -6,7 +6,6 @@ import javax.persistence.*;
 @Table(name="stat")
 public class Stat {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
   private long idstat;
   @Column(name="playername")
   private String playername;
