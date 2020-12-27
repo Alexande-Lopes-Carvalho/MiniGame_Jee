@@ -26,6 +26,7 @@ var time;
 
 function setup() {
     currentGameName = "snakeDummy";
+    setupGameOperation();
     var canvas = createCanvas(400, 400);
     canvas.parent("sketchHolder");
     frameRate(60);

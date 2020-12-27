@@ -1,4 +1,4 @@
-package net.app.main;
+package net.app.main.auxiliary;
 
 import net.app.main.model.GameRank;
 

@@ -1,4 +1,4 @@
-<%@ page import="net.app.main.GameRankEntry" %>
+<%@ page import="net.app.main.auxiliary.GameRankEntry" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.TreeSet" %>
 <!DOCTYPE html>
