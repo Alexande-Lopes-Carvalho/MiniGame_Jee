@@ -1,6 +1,6 @@
 function setupGameOperation(game){
     architecture();
-    putDataClassement();
+    putDataClassement(game);
     dataClassementG(game);
 }
 setupGameOperation("snakeDummy");
@@ -20,7 +20,7 @@ function saveScore(game, score, time){
 // appeler à la fin d'une partie
 function refreshPageRanks(game){ // rafraichit le classement sur la page utilisateur (A REMPLIR)
     // ...
-    putDataClassement();
+    putDataClassement(game);
     dataClassementG(game);
     console.log("refreshPageRanks");
 }
@@ -39,7 +39,7 @@ function changerRank(num){
         buttonLocal.disabled = true;
         buttonMondial.disabled = false;
         //set.innerHTML = "Classement Local";
-        putDataClassement();
+        putDataClassement("snakeDummy");
     }else{
         buttonMondial.disabled = true;
         buttonLocal.disabled = false;
@@ -48,9 +48,9 @@ function changerRank(num){
     }
 }
 
-function putDataClassement(){
+function putDataClassement(game){
     httpRequest = new XMLHttpRequest();
-    httpRequest.open("POST", "localRank", true); //  @RequestMapping("/localRank") affiche les scores
+    httpRequest.open("POST", "localRank?gamename="+game, true); //  @RequestMapping("/localRank") affiche les scores
     httpRequest.send();
     httpRequest.onreadystatechange = function () {
         if(httpRequest.readyState == 4 && httpRequest.status == 200){

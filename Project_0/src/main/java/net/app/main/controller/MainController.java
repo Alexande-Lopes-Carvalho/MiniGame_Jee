@@ -3,6 +3,7 @@ package net.app.main.controller;
 import net.app.main.GameRankEntry;
 import net.app.main.dao.*;
 import net.app.main.model.GameRank;
+import net.app.main.model.Stat;
 import net.app.main.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -163,14 +164,28 @@ public class MainController {
     }
 
     @RequestMapping("/localRank")
-    public String localRank(Model m /* ,@RequestParam(name="sortBy") Integer order*/){
-        m.addAttribute("listeLocalRank",statDao.findAll());
-        /*if(order==0){
-            m.addAttribute("listeLocalRank",gameRankDao.findAll(Sort.by("score")));
+    public String localRank(@RequestParam(name="gamename") String gamename,
+                            Model m, HttpSession httpSession){
+        //m.addAttribute("listeLocalRank",statDao.findAll());
+        String pname=(String)httpSession.getAttribute("name");
+
+        System.out.println("LOCAL \n NOM "+pname);
+
+        Stat s = new Stat();
+        //s.setPlayername();
+        s.setAveragescore(0);
+        s.setGameplayed(0);
+        s.setGamename(gamename);
+
+        if (pname == null || !playerDao.existsById(pname)){
+            m.addAttribute("localRank",s);
+            System.out.println("Rank vide ajouté");
         }else{
-            m.addAttribute("listeLocalRank",gameRankDao.findAll(Sort.by("score").descending()));
-        }*/
-        //m.addAttribute("listeLocalRank",gameRankDao.findAll());
+            Stat stat = statDao.findOneByPlayernameAndGamename(pname,gamename);
+            m.addAttribute("localRank",(stat == null)? s : stat);
+            System.out.println("stat ajouté");
+        }
+
         return "show/gameRankLocal";
     }
 
@@ -228,7 +243,7 @@ public class MainController {
             if(indexChercher>=0 && indexChercher<gameRanks.size()){
                 GameRankEntry g = new GameRankEntry(gameRanks.get(indexChercher),indexChercher+1);
                 System.out.println("bool "+ gameRanksClassement.add(g));
-                System.out.println("PASS g.egtPname:"+g.getPlayerName());
+                System.out.println("PASS g.egtPname:"+g.getGameRank().getPlayername());
             }
         }
 

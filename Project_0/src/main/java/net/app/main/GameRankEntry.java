@@ -44,21 +44,17 @@ public class GameRankEntry implements Comparable<GameRankEntry>{
 
     @Override
     public int compareTo(GameRankEntry o) {
-        int r = (int)(o.getGameRank().getScore()-gameRank.getScore());
-        return (r != 0)? r : gameRank.getPlayername().compareTo(o.getPlayerName());
+        if(o.getGameRank()==null || this.getGameRank()==null){
+            return (int) (this.getPosition()-o.getPosition());
+        }else{
+            int r = (int)(o.getGameRank().getScore()-gameRank.getScore());
+            return (r != 0)? r : gameRank.getPlayername().compareTo(o.getGameRank().getPlayername());
+        }
         // si res<0 => this<o
     }
 
     public String toString(){
         return ((gameRank == null)? "" : gameRank)+"("+position+")";
-    }
-
-    public String getPlayerName() {
-        return gameRank.getPlayername();
-    }
-
-    public long getScore() {
-        return gameRank.getScore();
     }
 
 }

@@ -11,4 +11,5 @@ public interface GameRankDao extends JpaRepository<GameRank, Long>{
 
     // génère automatiquement la req SQL en fonction du nom de la méthode
     List<GameRank> findByGamenameOrderByScoreDescPlayernameAsc(String gamename);
-   }
+
+}

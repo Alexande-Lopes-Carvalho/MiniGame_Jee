@@ -1,3 +1,4 @@
+<%@ page import="net.app.main.model.Stat" %>
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="en">
@@ -9,22 +10,19 @@
 
 <table border="1">
     <tr>
-        <th>idstat</th>
-        <th>playername</th>
-        <th>gamename</th>
-        <th>gameplayed</th>
-        <th>averagescore</th>
+        <th>Jeu</th>
+        <th>Nombre de parties jouées</th>
+        <th>Moyenne scores</th>
     </tr>
-    <c:forEach items="${listeLocalRank}" var="e">
-        <tr>
-            <th>${e.idstat}</th>
-            <th>${e.playername}</th>
-            <th>${e.gamename}</th>
-            <th>${e.gameplayed}</th>
-            <th>${e.averagescore}</th>
-        </tr>
-    </c:forEach>
+    <% Stat s = (Stat) request.getAttribute("localRank");%>
+
+    <tr>
+        <th><%= s.getGamename() %></th>
+        <th><%= s.getGameplayed()%></th>
+        <th><%= s.getAveragescore() %></th>
+    </tr>
 </table>
+
 
 </body>
 </html>

@@ -1,3 +1,6 @@
+<%@ page import="net.app.main.GameRankEntry" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.TreeSet" %>
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="en">
@@ -9,18 +12,33 @@
 
 <table border="1">
     <tr>
-        <th>Place</th>
-        <th>playername</th>
-        <th>score</th>
+        <th>Position</th>
+        <th>Nom</th>
+        <th>Score</th>
     </tr>
-    <c:forEach items="${listeGlobalRank}" var="e" varStatus="c">
+    <% TreeSet<GameRankEntry> l = (TreeSet<GameRankEntry>) request.getAttribute("listeGlobalRank");
+        for(GameRankEntry k : l){ %>
+    <% if(k.getGameRank()==null){%>
+    <tr>
+        <th>...</th>
+        <th>...</th>
+        <th>...</th>
+    </tr>
+    <%}else{ %>
+
+    <% if(k.getGameRank().getPlayername().equals(session.getAttribute("name"))){ %>
+    <tr style="color: darkorange">
+        <% }else{%>
         <tr>
-            <th>${e}</th>
-            <th>${e}</th>
-            <th>${e}</th>
-        </tr>
-    </c:forEach>
+        <% }%>
+        <th><%= k.getPosition() %></th>
+        <th><%= k.getGameRank().getPlayername()%></th>
+        <th><%= k.getGameRank().getScore() %></th>
+    </tr>
+    <%  } %>
+    <%  } %>
 </table>
+
 
 
 </body>
