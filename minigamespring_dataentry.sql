@@ -8,7 +8,7 @@ LOCK TABLES `game` WRITE;
 /*!40000 ALTER TABLE `game` DISABLE KEYS */;
 INSERT INTO `game` VALUES ('snakeDummy','p');
 INSERT INTO `game` VALUES ('TimberMan','p');
-INSERT INTO `game` VALUES ('Demineur','p');
+INSERT INTO `game` VALUES ('Demineur','t');
 /*!40000 ALTER TABLE `game` ENABLE KEYS */;
 UNLOCK TABLES;
 
