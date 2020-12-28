@@ -2,7 +2,7 @@ var currentGameName;
 
 function setupGameOperation(){
     architecture();
-    putDataClassement(currentGameName);
+    //putDataClassement(currentGameName);
     dataClassementG(currentGameName);
 }
 
@@ -12,7 +12,7 @@ function launchSaveScore(){
 }
 
 function saveScore(game, score, time){
-    httpRequest = new XMLHttpRequest();
+    var httpRequest = new XMLHttpRequest();
     httpRequest.open("POST", "saveScore?game=" + game + "&score=" + parseInt(score) + "&time=" + parseInt(time), true);
     httpRequest.send();
     httpRequest.onreadystatechange = function () {
@@ -59,7 +59,7 @@ function changerRank(num){
 }
 
 function putDataClassement(game){
-    httpRequest = new XMLHttpRequest();
+    var httpRequest = new XMLHttpRequest();
     httpRequest.open("POST", "localRank?gamename="+game, true); //  @RequestMapping("/localRank") affiche les scores
     httpRequest.send();
     httpRequest.onreadystatechange = function () {
@@ -70,7 +70,7 @@ function putDataClassement(game){
 }
 
 function dataClassementG(game){
-    httpRequest = new XMLHttpRequest();
+    var httpRequest = new XMLHttpRequest();
     httpRequest.open("POST", "globalRank?gamename="+game, true);
     httpRequest.send();
     httpRequest.onreadystatechange = function () {
