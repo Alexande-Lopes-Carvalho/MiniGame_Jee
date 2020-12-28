@@ -2,10 +2,11 @@ package net.app.main.controller;
 
 import net.app.main.auxiliary.GameRankEntry;
 import net.app.main.dao.*;
-import net.app.main.model.GameRank;
-import net.app.main.model.Stat;
-import net.app.main.model.User;
+import net.app.main.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -85,6 +86,25 @@ public class MainController {
         return "ajaxAnswer/footer";
     }
 
+    public boolean isAdmin(HttpSession session){
+        String name = (String) session.getAttribute("name");
+        return name != null && adminDao.existsById(name);
+    }
+
+    public boolean isSuperAdmin(HttpSession session){
+        String name = (String) session.getAttribute("name");
+        return name != null && superAdminDao.existsById(name);
+    }
+
+    public boolean isAdminOrSuperAdmin(HttpSession session){
+        String name = (String) session.getAttribute("name");
+        return !(name == null || (!adminDao.existsById(name) && !superAdminDao.existsById(name)));
+    }
+
+    public boolean isLoggedIn(HttpSession session){
+        return session.getAttribute("name") != null;
+    }
+
     @RequestMapping("/showUser")
     public String showUser(Model m){
         m.addAttribute("listUser", userDao.findAll());
@@ -132,11 +152,30 @@ public class MainController {
         return "show/session";
     }
 
+    @RequestMapping("/removeUser")
+    public String removeUser(@RequestParam(name="userName") String userName,
+                             HttpSession session){
+        if(!isAdminOrSuperAdmin(session)){
+            return "ajaxAnswer/null";
+        }
+        User u = userDao.getOne(userName);
+        if(u != null && !superAdminDao.existsById(userName)){
+            boolean userToDeleteIsAdmin = adminDao.existsById(userName);
+            if((userToDeleteIsAdmin && isSuperAdmin(session)) || !userToDeleteIsAdmin){
+                userDao.delete(u);
+            }
+        }
+        return "ajaxAnswer/null";
+    }
+
     @GetMapping("/addUser")
     public String addUser(@RequestParam(name="name") String name,
                           @RequestParam(name="mail") String mail,
                           @RequestParam(name="password") String password,
                           Model m){
+        if(userDao.existsById(name)){
+            return showUser(m);
+        }
         User u = new User();
         u.setName(name);
         u.setMail(mail);
@@ -145,9 +184,45 @@ public class MainController {
         return showUser(m);
     }
 
+    @RequestMapping("/addAdmin")
+    public String addAdmin(@RequestParam(name="name") String name,
+                           @RequestParam(name="mail") String mail,
+                           @RequestParam(name="password") String password,
+                           Model m, HttpSession session){
+        m.addAttribute("status", false);
+        m.addAttribute("name", false);
+        if(!isSuperAdmin(session)){
+            return "ajaxAnswer/addAdmin";
+        }
+        if(!userDao.existsById(name)){
+            addUser(name, mail, password, m);
+            Admin res = new Admin();
+            res.setAdminname(name);
+            adminDao.save(res);
+            m.addAttribute("status", true);
+        } else {
+            m.addAttribute("name", true);
+        }
+        return "ajaxAnswer/addAdmin";
+    }
+
     @RequestMapping("/snakeDummy")
     public String snakeDummy(){ // comment les sessions sont gérées en spring ?
         return /*(isLoggedIn())?*/ "games/snakeDummy" /*: "signup"*/;
+    }
+
+    @RequestMapping("/removeScore")
+    public String removeScore(@RequestParam(name="game") String game,
+                              @RequestParam(name="playerName") String playerName,
+                              HttpSession session){
+        if(!isAdminOrSuperAdmin(session)){
+            return "ajaxAnswer/null";
+        }
+        GameRank g = gameRankDao.findOneByPlayernameAndGamename(playerName, game);
+        if(g != null) {
+            gameRankDao.delete(g);
+        }
+        return "ajaxAnswer/null";
     }
 
     @RequestMapping("/saveScore")
@@ -320,5 +395,85 @@ public class MainController {
         m.addAttribute("listeGlobalRank", gameRanksClassement);
 
         return "ajaxAnswer/gameRankGlobal";
+    }
+
+    @RequestMapping("accessDenied")
+    public String accessDenied(){
+        return "session/denied";
+    }
+
+    @RequestMapping("admin")
+    public String admin(HttpSession session, Model m){
+        String adminName = (String) session.getAttribute("name");
+        if(!isLoggedIn(session)){
+            return login(session);
+        }
+        if(isAdminOrSuperAdmin(session)){
+            m.addAttribute("isSuperAdmin", isSuperAdmin(session));
+            return "administration/admin";
+        } else {
+            return accessDenied();
+        }
+    }
+
+    @RequestMapping("gamesButtons")
+    public String gamesButtons(Model m){
+        m.addAttribute("gameList", gameDao.findAll());
+        return "ajaxAnswer/gamesButtons";
+    }
+
+    @RequestMapping("requestScore")
+    public String requestScore(@RequestParam(name="game") String game,
+                               @RequestParam(name="pageIndex") int pageIndex,
+                               @RequestParam(name="step") int step,
+                               Model m, HttpSession session){
+        if(!isAdminOrSuperAdmin(session)){
+            return "ajaxAnswer/null";
+        }
+        //System.out.println("requestScore "+ game + " " + pageIndex + " " + step);
+        List<GameRank> list = gameRankDao.findByGamenameOrderByScoreDescPlayernameAsc(game, PageRequest.of(pageIndex, step));
+        //List<GameRank> ist = gameRankDao.findByGamename(game, PageRequest.of(startingIndex, step+1, Sort.by("score").descending().and(Sort.by("playername").ascending())));
+        m.addAttribute("addNext", (pageIndex+1)*step < gameRankDao.countByGamename(game));
+        //System.out.println("element received : " + list.size() /*+ " " + ist.size()*/);
+        m.addAttribute("rankList", list);
+        m.addAttribute("startPosition", pageIndex*step+1);
+
+        return "ajaxAnswer/gameRankAdmin";
+    }
+
+    @RequestMapping("requestPlayer")
+    public String requestPlayer(@RequestParam(name="pageIndex") int pageIndex,
+                                @RequestParam(name="step") int step,
+                                Model m, HttpSession session){
+        if(!isAdminOrSuperAdmin(session)){
+            return "ajaxAnswer/null";
+        }
+        List<Player> list = playerDao.findAll(PageRequest.of(pageIndex, step)).toList();
+        m.addAttribute("addNext", (pageIndex+1)*step < playerDao.count());
+        List<User> res = new ArrayList<>();
+        for(Player k : list){
+            res.add(userDao.getOne(k.getPlayername()));
+        }
+        m.addAttribute("userList", res);
+        m.addAttribute("isPlayer", true);
+        return "ajaxAnswer/userAdmin";
+    }
+
+    @RequestMapping("requestAdmin")
+    public String requestAdmin(@RequestParam(name="pageIndex") int pageIndex,
+                                @RequestParam(name="step") int step,
+                                Model m, HttpSession session){
+        if(!isSuperAdmin(session)){
+            return "ajaxAnswer/null";
+        }
+        List<Admin> list = adminDao.findAll(PageRequest.of(pageIndex, step)).toList();
+        m.addAttribute("addNext", (pageIndex+1)*step < adminDao.count());
+        List<User> res = new ArrayList<>();
+        for(Admin k : list){
+            res.add(userDao.getOne(k.getAdminname()));
+        }
+        m.addAttribute("userList", res);
+        m.addAttribute("isPlayer", false);
+        return "ajaxAnswer/userAdmin";
     }
 }

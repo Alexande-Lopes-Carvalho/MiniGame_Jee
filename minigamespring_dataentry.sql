@@ -7,6 +7,8 @@ USE `minigamespring`;
 LOCK TABLES `game` WRITE;
 /*!40000 ALTER TABLE `game` DISABLE KEYS */;
 INSERT INTO `game` VALUES ('snakeDummy','p');
+INSERT INTO `game` VALUES ('TimberMan','p');
+INSERT INTO `game` VALUES ('Demineur','p');
 /*!40000 ALTER TABLE `game` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -23,13 +25,23 @@ INSERT INTO `user` VALUES ('caique','betternest@gmail.fr','N93G9WsgK4xRpjXzqsx4s
 INSERT INTO `user` VALUES ('conure','sun@gmail.fr','N93G9WsgK4xRpjXzqsx4sQ==');
 INSERT INTO `user` VALUES ('cockatiel','pikachu@gmail.fr','N93G9WsgK4xRpjXzqsx4sQ==');
 INSERT INTO `user` VALUES ('macaw','scarlet@gmail.fr','N93G9WsgK4xRpjXzqsx4sQ==');
+INSERT INTO `user` VALUES ('owl','barn@gmail.fr','DpFvIrNx87lTjdvoNIvyIw==');
+INSERT INTO `user` VALUES ('falcon','peregrine@gmail.fr','DpFvIrNx87lTjdvoNIvyIw==');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
---
--- Dumping data for table `player`
---
+LOCK TABLES `superadmin` WRITE;
+/*!40000 ALTER TABLE `superadmin` DISABLE KEYS */;
+INSERT INTO `superadmin` VALUES ('falcon');
+/*!40000 ALTER TABLE `superadmin` ENABLE KEYS */;
+UNLOCK TABLES;
+
+LOCK TABLES `admin` WRITE;
+/*!40000 ALTER TABLE `admin` DISABLE KEYS */;
+INSERT INTO `admin` VALUES ('owl');
+/*!40000 ALTER TABLE `admin` ENABLE KEYS */;
+UNLOCK TABLES;
 
 LOCK TABLES `player` WRITE;
 /*!40000 ALTER TABLE `player` DISABLE KEYS */;

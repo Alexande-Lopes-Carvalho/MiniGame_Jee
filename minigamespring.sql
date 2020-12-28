@@ -27,7 +27,7 @@ DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin` (
   `adminname` varchar(45) NOT NULL,
   PRIMARY KEY (`adminname`),
-  CONSTRAINT `fk_admin_user` FOREIGN KEY (`adminname`) REFERENCES `user` (`name`)
+  CONSTRAINT `fk_admin_user` FOREIGN KEY (`adminname`) REFERENCES `user` (`name`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -70,8 +70,8 @@ CREATE TABLE `gamerank` (
   PRIMARY KEY (`idgamerank`),
   KEY `fk_gamerank_game_idx` (`gamename`),
   KEY `fk_gamerank_player_idx` (`playername`),
-  CONSTRAINT `fk_gamerank_game` FOREIGN KEY (`gamename`) REFERENCES `game` (`name`),
-  CONSTRAINT `fk_gamerank_player` FOREIGN KEY (`playername`) REFERENCES `player` (`playername`)
+  CONSTRAINT `fk_gamerank_game` FOREIGN KEY (`gamename`) REFERENCES `game` (`name`)  ON DELETE CASCADE,
+  CONSTRAINT `fk_gamerank_player` FOREIGN KEY (`playername`) REFERENCES `player` (`playername`)  ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -107,7 +107,7 @@ DROP TABLE IF EXISTS `player`;
 CREATE TABLE `player` (
   `playername` varchar(45) NOT NULL,
   PRIMARY KEY (`playername`),
-  CONSTRAINT `fk_player_user` FOREIGN KEY (`playername`) REFERENCES `user` (`name`)
+  CONSTRAINT `fk_player_user` FOREIGN KEY (`playername`) REFERENCES `user` (`name`)  ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -127,8 +127,8 @@ CREATE TABLE `stat` (
   PRIMARY KEY (`idstat`),
   KEY `fk_stat_game_idx` (`gamename`),
   KEY `fk_stat_player_idx` (`playername`),
-  CONSTRAINT `fk_stat_game` FOREIGN KEY (`gamename`) REFERENCES `game` (`name`),
-  CONSTRAINT `fk_stat_player` FOREIGN KEY (`playername`) REFERENCES `player` (`playername`)
+  CONSTRAINT `fk_stat_game` FOREIGN KEY (`gamename`) REFERENCES `game` (`name`)  ON DELETE CASCADE,
+  CONSTRAINT `fk_stat_player` FOREIGN KEY (`playername`) REFERENCES `player` (`playername`)  ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -151,7 +151,7 @@ DROP TABLE IF EXISTS `superadmin`;
 CREATE TABLE `superadmin` (
   `superadminname` varchar(45) NOT NULL,
   PRIMARY KEY (`superadminname`),
-  CONSTRAINT `fk_superadmin_user` FOREIGN KEY (`superadminname`) REFERENCES `user` (`name`)
+  CONSTRAINT `fk_superadmin_user` FOREIGN KEY (`superadminname`) REFERENCES `user` (`name`)  ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
