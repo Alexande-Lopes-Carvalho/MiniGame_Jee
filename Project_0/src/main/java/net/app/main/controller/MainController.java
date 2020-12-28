@@ -73,6 +73,18 @@ public class MainController {
         return rawPassword.equals(decrypt(encodedPassword));
     }
 
+    @RequestMapping("/header")
+    public String header(){
+        System.out.println("header Request");
+        return "ajaxAnswer/header";
+    }
+
+    @RequestMapping("/footer")
+    public String footer(){
+        System.out.println("footer Request");
+        return "ajaxAnswer/footer";
+    }
+
     @RequestMapping("/showUser")
     public String showUser(Model m){
         m.addAttribute("listUser", userDao.findAll());
