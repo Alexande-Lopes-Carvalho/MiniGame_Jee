@@ -232,7 +232,7 @@ public class MainController {
             //System.out.println("stat ajouté");
         }
 
-        return "show/gameRankLocal";
+        return "ajaxAnswer/gameRankLocal";
     }
 
 
@@ -273,7 +273,7 @@ public class MainController {
                     gameRanksClassement.add(g);
                 }
                 m.addAttribute("listeGlobalRank", gameRanksClassement);
-                return "show/gameRankGlobal";
+                return "ajaxAnswer/gameRankGlobal";
             }
         }
         GameRankEntry last;
@@ -307,6 +307,6 @@ public class MainController {
         // une fois les données de classement sélectionnées on les met dans listeGlobalRank qui sera accessible en jsp
         m.addAttribute("listeGlobalRank", gameRanksClassement);
 
-        return "show/gameRankGlobal";
+        return "ajaxAnswer/gameRankGlobal";
     }
 }
