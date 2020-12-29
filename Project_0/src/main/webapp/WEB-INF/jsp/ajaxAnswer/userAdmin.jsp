@@ -1,7 +1,7 @@
 <%@ page import="net.app.main.model.GameRank" %>
 <%@ page import="java.util.List" %>
 <%@ page import="net.app.main.model.User" %>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%  List<User> list = (List<User>) request.getAttribute("userList");
     boolean addNext = (Boolean) request.getAttribute("addNext"), isPlayer = (Boolean) request.getAttribute("isPlayer");

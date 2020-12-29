@@ -1,13 +1,20 @@
 var currentGameName;
 
 function setupGameOperation(){
+    window.addEventListener("keydown", function(e) {
+        // space and arrow keys
+        if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+            e.preventDefault();
+        }
+    }, false); // empeche les fleche directionnelle de scroller la page (et donc de descendre monté la page pdt qu'on joue)
     architecture();
     //putDataClassement(currentGameName);
     dataClassementG(currentGameName);
+    document.getElementById("gameName").innerHTML=currentGameName;
 }
 
 function launchSaveScore(){
-    console.log("pass launchSaveScore");
+    //console.log("pass launchSaveScore");
     saveScore(currentGameName, score, time);
 }
 
@@ -37,8 +44,9 @@ function refreshPageRanks(game){ // rafraichit le classement sur la page utilisa
 }
 
 function architecture(){
-    var set = document.getElementById('buttons');
-    set.innerHTML = "<button id=\"buttonLocal\" onclick=\"changerRank(0)\">Classement local</button> <button id=\"buttonMondial\" onclick=\"changerRank(1)\" disabled>Classement mondial</button>";
+    buttonMondial=document.getElementById("buttonMondial").disabled = true;
+    //var set = document.getElementById('buttons');
+    //set.innerHTML = "<button id=\"buttonLocal\" onclick=\"changerRank(0)\">Classement local</button> <button id=\"buttonMondial\" onclick=\"changerRank(1)\" disabled>Classement mondial</button>";
 }
 
 function changerRank(num){
