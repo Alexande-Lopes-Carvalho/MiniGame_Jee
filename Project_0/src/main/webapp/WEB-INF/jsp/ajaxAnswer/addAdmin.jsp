@@ -1,4 +1,5 @@
 {
     "status" : <%=(Boolean) request.getAttribute("status")%>,
-    "name" : <%=(Boolean) request.getAttribute("name")%>
+    "errorName" : <%=(Boolean) request.getAttribute("errorName")%>,
+    "errorMail" : <%=(Boolean) request.getAttribute("errorMail")%>
 }

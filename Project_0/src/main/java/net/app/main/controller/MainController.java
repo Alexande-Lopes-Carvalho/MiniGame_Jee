@@ -174,20 +174,23 @@ public class MainController {
         return "ajaxAnswer/null";
     }
 
-    @GetMapping("/addUser")
+    @RequestMapping("/addUser")
     public String addUser(@RequestParam(name="name") String name,
                           @RequestParam(name="mail") String mail,
                           @RequestParam(name="password") String password,
                           Model m){
-        if(userDao.existsById(name)){
-            return showUser(m);
+        boolean errorName = userDao.existsById(name), errorMail = userDao.existsByMail(mail);
+        m.addAttribute("errorName", errorName);
+        m.addAttribute("errorMail", errorMail);
+        if(errorName || errorMail){
+            return "ajaxAnswer/null";
         }
         User u = new User();
         u.setName(name);
         u.setMail(mail);
         u.setPassword(encode(password)); // Password à limiter en nb de char => cryptage peut depasser les 45 char sur bdd
         userDao.save(u);
-        return showUser(m);
+        return "ajaxAnswer/null";
     }
 
     @RequestMapping("/addAdmin")
@@ -196,20 +199,45 @@ public class MainController {
                            @RequestParam(name="password") String password,
                            Model m, HttpSession session){
         m.addAttribute("status", false);
-        m.addAttribute("name", false);
         if(!isSuperAdmin(session)){
             return "ajaxAnswer/addAdmin";
         }
-        if(!userDao.existsById(name)){
-            addUser(name, mail, password, m);
+        //System.out.println("before " + m);
+        //System.out.println("(!addAdmin)");
+        addUser(name, mail, password, m);
+        //System.out.println("after " + m);
+        if(!(Boolean)m.getAttribute("errorName") && !(Boolean)m.getAttribute("errorMail")){
             Admin res = new Admin();
             res.setAdminname(name);
             adminDao.save(res);
             m.addAttribute("status", true);
-        } else {
-            m.addAttribute("name", true);
         }
         return "ajaxAnswer/addAdmin";
+    }
+
+    @RequestMapping("/addPlayer")
+    public String addPlayer(@RequestParam(name="name") String name,
+                            @RequestParam(name="mail") String mail,
+                            @RequestParam(name="password") String password,
+                            @RequestParam(name="passwordRepeat") String passwordRepeat,
+                            Model m, HttpSession session) {
+        m.addAttribute("name", name);
+        m.addAttribute("mail", mail);
+        if(!password.equals(passwordRepeat)){
+            m.addAttribute("errorPassword", true);
+            m.addAttribute("errorName", userDao.existsById(name));
+            m.addAttribute("errorMail", userDao.existsByMail(mail));
+            return inscription(m);
+        }
+        m.addAttribute("errorPassword", false);
+        addUser(name, mail, password, m);
+        if (!(Boolean) m.getAttribute("errorName") && !(Boolean) m.getAttribute("errorMail")) {
+            Player res = new Player();
+            res.setPlayername(name);
+            playerDao.save(res);
+            return connect(name, password, m, session);
+        }
+        return inscription(m);
     }
 
     @RequestMapping("/snakeDummy")
@@ -275,23 +303,32 @@ public class MainController {
         statDao.save(k);
     }
 
+    @RequestMapping("/homepage")
+    public String homepage(){
+        return showSession(); // A CHANGER
+    }
+
     @RequestMapping("/connect")
     public String connect(@RequestParam(name="name") String name,
                           @RequestParam(name="password") String password,
                           Model m, HttpSession session){
         Optional<User> u = userDao.findById(name);
-        if(u.isPresent() && matches(password, u.get().getPassword())){
+        boolean exist = u.isPresent();
+        if(exist && matches(password, u.get().getPassword())){
             session.setAttribute("name", u.get().getName());
-            return showSession();
+            return homepage();
         } else {
-            return login(session);
+            m.addAttribute("name", name);
+            m.addAttribute("errorName", !exist);
+            // on peut deviner avec ces info si le password est incorrect, inutile de rajouter un attribut sup
+            return login(m, session);
         }
     }
 
     @RequestMapping("/login")
-    public String login(HttpSession session){
+    public String login(Model m, HttpSession session){
         if(null != session.getAttribute("name")){ // deja connecte
-            return showSession();
+            return homepage();
         }
         return "session/login";
     }
@@ -300,6 +337,11 @@ public class MainController {
     public String disconnect(HttpSession session){
         session.setAttribute("name", null);
         return "session/disconnect";
+    }
+
+    @RequestMapping("/inscription")
+    public String inscription(Model m){
+        return "session/inscription";
     }
 
     @RequestMapping("/localRank")
@@ -430,7 +472,7 @@ public class MainController {
     public String admin(HttpSession session, Model m){
         String adminName = (String) session.getAttribute("name");
         if(!isLoggedIn(session)){
-            return login(session);
+            return login(m, session);
         }
         if(isAdminOrSuperAdmin(session)){
             m.addAttribute("isSuperAdmin", isSuperAdmin(session));

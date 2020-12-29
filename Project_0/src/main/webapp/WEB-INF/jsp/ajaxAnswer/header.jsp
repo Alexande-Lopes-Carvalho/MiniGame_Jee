@@ -19,9 +19,9 @@
                 </li>
             </ul><span class="navbar-text actions">
                 <!-- Bouton de connexion -->
-                <a class="login" href="#" style="font-weight: bold;">Log In</a>
+                <a class="login" href="login" style="font-weight: bold;">Log In</a>
             <!-- Bouton d'inscription -->
-                <a class="btn btn-light action-button" role="button" href="#">Sign Up</a>
+                <a class="btn btn-light action-button" role="button" href="inscription">Sign Up</a>
             </span>
         </div>
     </div>
