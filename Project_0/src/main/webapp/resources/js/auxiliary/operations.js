@@ -1,9 +1,14 @@
 
 operationsSetup();
 function operationsSetup(){
+    putHeaderFooterImport();
     putHeader();
     putFooter();
     //console.log("pass");
+}
+
+function putHeaderFooterImport(){
+    putPage("headerFooterImport");
 }
 
 function putHeader(){

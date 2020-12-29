@@ -74,15 +74,21 @@ public class MainController {
         return rawPassword.equals(decrypt(encodedPassword));
     }
 
+    @RequestMapping("/headerFooterImport")
+    public String headerFooterImport(){
+        //System.out.println("footer Request");
+        return "ajaxAnswer/headerFooterImport";
+    }
+
     @RequestMapping("/header")
     public String header(){
-        System.out.println("header Request");
+        //System.out.println("header Request");
         return "ajaxAnswer/header";
     }
 
     @RequestMapping("/footer")
     public String footer(){
-        System.out.println("footer Request");
+        //System.out.println("footer Request");
         return "ajaxAnswer/footer";
     }
 
