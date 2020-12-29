@@ -12,7 +12,7 @@
             <ul class="nav navbar-nav mr-auto">
                 <li class="nav-item"></li>
                 <li class="nav-item"></li>
-                <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#" style="font-style: normal;font-weight: bold;">Menu</a>
+                <li class="nav-item dropdown">
                     <div class="dropdown-menu" style="background: rgb(255,255,255);color: rgb(0,0,0);"><a class="dropdown-item" href="#">Log In</a><a class="dropdown-item" href="#">Sign Up</a>
                         <div class="dropdown-divider"></div>
                         <h6 class="dropdown-header" style="font-size: 20px;background: #ffffff;">Jeux</h6><a class="dropdown-item" href="#">Snake<br></a><a class="dropdown-item" href="#">Démineur<br></a><a class="dropdown-item" href="#">Timber Man<br></a><a class="dropdown-item" href="#">Flappy Bird</a></div>

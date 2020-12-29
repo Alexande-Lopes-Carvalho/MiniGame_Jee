@@ -371,17 +371,9 @@ public class MainController {
     }
 
     @RequestMapping("/classement")
-    // @RequestParam utile ?
-    public String showClassement(@RequestParam(name="gamename") String gamename, Model m){
-        List<GameRank> gameRanks = gameRankDao.findByGamenameOrderByScoreDescPlayernameAsc(gamename);
-        TreeSet<GameRankEntry> gameRanksClassement = new TreeSet<GameRankEntry>();
-        for(int i=0; i<gameRanks.size(); i++){
-            GameRankEntry g = new GameRankEntry(gameRanks.get(i),i+1);
-            gameRanksClassement.add(g);
-        }
-        m.addAttribute("listeJeu", gameRanksClassement);
-        return "rank/classement";
-    } // http://localhost:8080/classement?gamename=snakeDummy
+    public String showClassement(Model m){
+        return "pages/classement";
+    }
 
     /*@RequestMapping("classement")
     public String classement(HttpSession session, Model m){

@@ -37,19 +37,6 @@
             <th>Nom</th>
             <th>Score</th>
         </tr>
- <!--       <% TreeSet<GameRankEntry> l = (TreeSet<GameRankEntry>) request.getAttribute("listeJeu");
-            for (GameRankEntry k : l) { %>
-
-        <tr>
-            <th><%= k.getPosition() %>
-            </th>
-            <th><%= k.getGameRank().getPlayername()%>
-            </th>
-            <th><%= k.getGameRank().getScore() %>
-            </th>
-        </tr>
-
-        <% } %> -->
 
     </table>
 </div>
