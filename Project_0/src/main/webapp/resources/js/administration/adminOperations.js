@@ -202,15 +202,24 @@ function addAdmin(){
     httpRequest.onreadystatechange = function () {
         if(httpRequest.readyState == 4 && httpRequest.status == 200){
             //console.log("inside");
-            //console.log(httpRequest.responseText);
+            console.log(httpRequest.responseText);
             var res = JSON.parse(httpRequest.responseText);
-            //console.log(res);
+            console.log(res);
             document.getElementById("resultAdminName").innerHTML = "";
             document.getElementById("errorAdminName").innerHTML = "";
+            document.getElementById("errorAdminEmail").innerHTML = "";
             if(res.status){
+                document.getElementById("addAdminName").value = "";
+                document.getElementById("addAdminMail").value = "";
+                document.getElementById("addAdminPassword").value = "";
                 document.getElementById("resultAdminName").innerHTML = "opération réalisée avec succès";
-            } else if(res.name) {
-                document.getElementById("errorAdminName").innerHTML = "nom déjà pris, veuillez en choisir un autre ...";
+            } else {
+                if(res.errorName) {
+                    document.getElementById("errorAdminName").innerHTML = "nom déjà pris, veuillez en choisir un autre ...";
+                }
+                if(res.errorMail){
+                    document.getElementById("errorAdminEmail").innerHTML = "mail déjà pris, veuillez en choisir un autre ...";
+                }
             }
             refresh();
         }

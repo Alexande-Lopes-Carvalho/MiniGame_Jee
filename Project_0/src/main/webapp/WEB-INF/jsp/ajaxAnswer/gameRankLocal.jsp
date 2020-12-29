@@ -12,14 +12,12 @@
 <table border="1" class="table table-striped table-bordered" cellspacing="0" width="100%"
        style="text-align: center; width: 100%; ">
     <tr>
-        <th>Jeu</th>
         <th>Nombre de parties jouées</th>
         <th>Moyenne scores</th>
     </tr>
     <% Stat s = (Stat) request.getAttribute("localRank");%>
 
     <tr>
-        <th><%= s.getGamename() %></th>
         <th><%= s.getGameplayed()%></th>
         <th><%= s.getAveragescore() %></th>
     </tr>
