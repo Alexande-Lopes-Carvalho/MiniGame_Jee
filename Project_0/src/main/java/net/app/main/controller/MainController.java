@@ -328,6 +328,24 @@ public class MainController {
         return "ajaxAnswer/gameRankLocal";
     }
 
+    @RequestMapping("/classement")
+    // @RequestParam utile ?
+    public String showClassement(@RequestParam(name="gamename") String gamename, Model m){
+        List<GameRank> gameRanks = gameRankDao.findByGamenameOrderByScoreDescPlayernameAsc(gamename);
+        TreeSet<GameRankEntry> gameRanksClassement = new TreeSet<GameRankEntry>();
+        for(int i=0; i<gameRanks.size(); i++){
+            GameRankEntry g = new GameRankEntry(gameRanks.get(i),i+1);
+            gameRanksClassement.add(g);
+        }
+        m.addAttribute("listeJeu", gameRanksClassement);
+        return "rank/classement";
+    } // http://localhost:8080/classement?gamename=snakeDummy
+
+    /*@RequestMapping("classement")
+    public String classement(HttpSession session, Model m){
+        return "rank/classement";
+    }
+    */
 
     @RequestMapping("/globalRank")
     public String globalRank(@RequestParam(name="gamename") String gamename,
@@ -422,6 +440,7 @@ public class MainController {
         }
     }
 
+
     @RequestMapping("gamesButtons")
     public String gamesButtons(Model m){
         m.addAttribute("gameList", gameDao.findAll());
@@ -445,6 +464,22 @@ public class MainController {
         m.addAttribute("startPosition", pageIndex*step+1);
 
         return "ajaxAnswer/gameRankAdmin";
+    }
+
+    @RequestMapping("classementJeux")
+    public String classementJeux(@RequestParam(name="game") String game,
+                               @RequestParam(name="pageIndex") int pageIndex,
+                               @RequestParam(name="step") int step,
+                               Model m, HttpSession session){
+        //System.out.println("requestScore "+ game + " " + pageIndex + " " + step);
+        List<GameRank> list = gameRankDao.findByGamenameOrderByScoreDescPlayernameAsc(game, PageRequest.of(pageIndex, step));
+        //List<GameRank> ist = gameRankDao.findByGamename(game, PageRequest.of(startingIndex, step+1, Sort.by("score").descending().and(Sort.by("playername").ascending())));
+        m.addAttribute("addNext", (pageIndex+1)*step < gameRankDao.countByGamename(game));
+        //System.out.println("element received : " + list.size() /*+ " " + ist.size()*/);
+        m.addAttribute("rankList", list);
+        m.addAttribute("startPosition", pageIndex*step+1);
+
+        return "ajaxAnswer/classementJeux";
     }
 
     @RequestMapping("requestPlayer")
