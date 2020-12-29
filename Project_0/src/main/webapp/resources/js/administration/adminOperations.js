@@ -33,7 +33,7 @@ function putGamesButtons(){
 }
 
 function selectFirstGameButton(){
-    selectGame(document.getElementById("classementButtons").firstElementChild);
+    selectGame(document.getElementById("classementButtons").children[0].children[0]);
 }
 
 function selectGame(node){

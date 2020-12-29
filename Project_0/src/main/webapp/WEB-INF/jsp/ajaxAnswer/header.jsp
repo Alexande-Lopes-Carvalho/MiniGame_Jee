@@ -1,3 +1,5 @@
+<%@ page import="net.app.main.model.Game" %>
+<%@ page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- Header -->
 <nav class="navbar navbar-light navbar-expand-md navigation-clean-button" style="padding: 5px;background: #39cd04;">
@@ -15,7 +17,12 @@
                 <li class="nav-item dropdown">
                     <div class="dropdown-menu" style="background: rgb(255,255,255);color: rgb(0,0,0);"><a class="dropdown-item" href="#">Log In</a><a class="dropdown-item" href="#">Sign Up</a>
                         <div class="dropdown-divider"></div>
-                        <h6 class="dropdown-header" style="font-size: 20px;background: #ffffff;">Jeux</h6><a class="dropdown-item" href="#">Snake<br></a><a class="dropdown-item" href="#">Démineur<br></a><a class="dropdown-item" href="#">Timber Man<br></a><a class="dropdown-item" href="#">Flappy Bird</a></div>
+                        <h6 class="dropdown-header" style="font-size: 20px;background: #ffffff;">Jeux</h6>
+                        <a class="dropdown-item" href="#">Snake<br></a>
+                        <a class="dropdown-item" href="#">Démineur<br></a>
+                        <a class="dropdown-item" href="#">Timber Man<br></a>
+                        <a class="dropdown-item" href="#">Flappy Bird</a>
+                    </div>
                 </li>
             </ul><span class="navbar-text actions">
                 <!-- Bouton de connexion -->
@@ -33,10 +40,11 @@
     <div class="container"><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navcol-1" style="height: 39px;width: 1162px;">
             <ul class="nav navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="#" style="font-weight: bold;">Snake</a></li>
-                <li class="nav-item"><a class="nav-link" href="#" style="font-weight: bold;">Démineur</a></li>
-                <li class="nav-item"><a class="nav-link" href="#" style="font-weight: bold;">Timber Man</a></li>
-                <li class="nav-item"><a class="nav-link" href="#" style="font-weight: bold;">Flappy Bird</a></li>
+                <% List<Game> list = (List<Game>) request.getAttribute("gameList");
+                    for(Game k : list) {
+                %>
+                <li class="nav-item"><a class="nav-link" href="<%=k.getName()%>" style="font-weight: bold;"><%=k.getName()%></a></li>
+                <%}%>
             </ul>
             <form class="form-inline mr-auto" target="_self">
                 <div class="form-group"><label for="search-field"></label></div>

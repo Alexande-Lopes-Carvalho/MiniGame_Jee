@@ -23,10 +23,11 @@ function putGamesButtons(){
 }
 
 function selectFirstGameButton(){
-    selectGame(document.getElementById("classementButtons").firstElementChild);
+    selectGame(document.getElementById("classementButtons").children[0].children[0]);
 }
 
 function selectGame(node){
+    //console.log(node)
     if(selectedButton != null){
         selectedButton.disabled = false;
     }
@@ -51,6 +52,7 @@ function refreshClassement(){
         //console.log(node.children[i])
         node.children[1].remove();
     }
+    //console.log(selectedButton.id);
     eraseNextClassement();
     var httpRequest = new XMLHttpRequest();
     httpRequest.open("POST", "classementJeux?game=" + selectedButton.id + "&pageIndex=" + 0 + "&step=" + rankPageIndex*RANK_STEP, true);

@@ -81,8 +81,9 @@ public class MainController {
     }
 
     @RequestMapping("/header")
-    public String header(){
+    public String header(Model m){
         //System.out.println("header Request");
+        m.addAttribute("gameList", gameDao.findAll());
         return "ajaxAnswer/header";
     }
 
@@ -241,8 +242,33 @@ public class MainController {
     }
 
     @RequestMapping("/snakeDummy")
-    public String snakeDummy(){ // comment les sessions sont gérées en spring ?
-        return /*(isLoggedIn())?*/ "games/snakeDummy" /*: "signup"*/;
+    public String snakeDummy(Model m) {
+        m.addAttribute("gameName","snakeDummy");
+        return /*(isLoggedIn())?*/ "pages/game" /*: "signup"*/;
+    }
+
+    @RequestMapping("/Snake")
+    public String snake(Model m){
+        m.addAttribute("gameName","Snake");
+        return "pages/game";
+    }
+
+    @RequestMapping("/Démineur")
+    public String demineur(Model m){
+        m.addAttribute("gameName","Démineur");
+        return "pages/game";
+    }
+
+    @RequestMapping("/FlappyBird")
+    public String flappyBird(Model m){
+        m.addAttribute("gameName","FlappyBird");
+        return "pages/game";
+    }
+
+    @RequestMapping("/TimberMan")
+    public String timberMan(Model m){
+        m.addAttribute("gameName","TimberMan");
+        return "pages/game";
     }
 
     @RequestMapping("/removeScore")

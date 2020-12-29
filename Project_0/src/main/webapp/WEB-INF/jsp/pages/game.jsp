@@ -11,14 +11,14 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="../../resources/assets/css/Login-Form-Clean.css">
     <link rel="stylesheet" href="../../resources/assets/css/Login-Form-Dark.css">
-    <title>Snake Dummy</title>
+    <title><%=(String)request.getAttribute("gameName")%></title>
 </head>
 <body>
     <div id="headerFooterImport"></div>
     <div id="header"></div>
     <!-- Le nom du jeu -->
     <div>
-        <h1 id="gameName" style="text-align: center;"></h1>
+        <h1 id="gameName" style="text-align: center"><%=(String)request.getAttribute("gameName")%></h1>
     </div>
     <!-- Div pour le JS -->
     <div id="sketchHolder" style="margin: 0; display: flex;justify-content: center; align-items: center">
@@ -53,6 +53,6 @@
     <div id="footer"></div>
     <script src="../../resources/js/auxiliary/operations.js"></script>
     <script src="../../resources/js/games/gameOperations.js"></script>
-    <script src="../../resources/js/games/snakeDummy.js"></script>
+    <script src="../../resources/js/games/<%=(String)request.getAttribute("gameName")%>.js"></script>
 </body>
 </html>

@@ -4,6 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="../../../resources/assets/css/Bootstrap-4---Table-Fixed-Header.css">
+    <link rel="stylesheet" href="../../../resources/assets/css/Data-Table-1.css">
+    <link rel="stylesheet" href="../../../resources/assets/css/Data-Table-2.css">
+    <link rel="stylesheet" href="../../../resources/assets/css/Data-Table-3.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="../../../resources/assets/css/Login-Form-Clean.css">
+    <link rel="stylesheet" href="../../../resources/assets/css/Login-Form-Dark.css">
 </head>
 <body>
     <div id="classement">
