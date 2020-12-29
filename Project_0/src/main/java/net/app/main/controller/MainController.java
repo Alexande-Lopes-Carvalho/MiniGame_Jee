@@ -275,23 +275,32 @@ public class MainController {
         statDao.save(k);
     }
 
+    @RequestMapping("/homepage")
+    public String homepage(){
+        return showSession(); // A CHANGER
+    }
+
     @RequestMapping("/connect")
     public String connect(@RequestParam(name="name") String name,
                           @RequestParam(name="password") String password,
                           Model m, HttpSession session){
         Optional<User> u = userDao.findById(name);
-        if(u.isPresent() && matches(password, u.get().getPassword())){
+        boolean exist = u.isPresent();
+        if(exist && matches(password, u.get().getPassword())){
             session.setAttribute("name", u.get().getName());
-            return showSession();
+            return homepage();
         } else {
-            return login(session);
+            m.addAttribute("name", name);
+            m.addAttribute("errorName", !exist);
+            // on peut deviner avec ces info si le password est incorrect, inutile de rajouter un attribut sup
+            return login(m, session);
         }
     }
 
     @RequestMapping("/login")
-    public String login(HttpSession session){
+    public String login(Model m, HttpSession session){
         if(null != session.getAttribute("name")){ // deja connecte
-            return showSession();
+            return homepage();
         }
         return "session/login";
     }
@@ -412,7 +421,7 @@ public class MainController {
     public String admin(HttpSession session, Model m){
         String adminName = (String) session.getAttribute("name");
         if(!isLoggedIn(session)){
-            return login(session);
+            return login(m, session);
         }
         if(isAdminOrSuperAdmin(session)){
             m.addAttribute("isSuperAdmin", isSuperAdmin(session));

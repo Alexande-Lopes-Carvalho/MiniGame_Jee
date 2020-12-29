@@ -45,7 +45,7 @@
                </tr>
            </table>
            <form onsubmit="addAdmin();return false;" method="post">
-               nickname : <input type="text" id="addAdminName" name="name" required><br>
+               nickname : <input type="text" id="addAdminName" name="name" maxlength="40" required><br>
                <div id="errorAdminName" style="color:#ff0000;font-size:x-small;"></div><br>
                email : <input type="email" id="addAdminMail" size="30" name="mail" required><br>
                <div id="errorAdminEmail" style="color:#ff0000;font-size:x-small;"></div><br>
