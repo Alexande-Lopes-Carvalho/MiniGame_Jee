@@ -329,9 +329,14 @@ public class MainController {
         statDao.save(k);
     }
 
+    @RequestMapping("/")
+    public String index(){
+        return homepage();
+    }
+
     @RequestMapping("/homepage")
     public String homepage(){
-        return showSession(); // A CHANGER
+        return "pages/homepage";
     }
 
     @RequestMapping("/connect")

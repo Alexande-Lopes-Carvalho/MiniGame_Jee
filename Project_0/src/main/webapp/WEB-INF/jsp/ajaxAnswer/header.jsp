@@ -7,7 +7,7 @@
         <!-- Logo du site -->
         <img src="../../../resources/assets/img/logo.png" style="height: 65px;margin: 0px;">
         <!-- nom du site -->
-        <a class="navbar-brand" href="#" style="padding: 5px 15px;">Mini-jeux-fun.fr</a>
+        <a class="navbar-brand" href="homepage" style="padding: 5px 15px;">Mini-jeux-fun.fr</a>
         <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <!-- Navigation dans le header -->
         <div class="collapse navbar-collapse" id="navcol-1">
