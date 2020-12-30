@@ -1,13 +1,13 @@
 
 var selectedButton = null;
 var rankPageIndex;
-const RANK_STEP = 5;
+const RANK_STEP = 100;
 
 var playerPageIndex;
-const PLAYER_STEP = 5;
+const PLAYER_STEP = 100;
 
 var adminPageIndex;
-const ADMIN_STEP = 5;
+const ADMIN_STEP = 100;
 
 adminSetup();
 function adminSetup(){
@@ -65,9 +65,9 @@ function refreshClassement(){
     var node = document.getElementById("classementData");
     //console.log("resfresh " + node.children.length);
     //console.log(node.children[0]);
-    for(var i = node.children.length-1; i > 0; i--){
+    for(var i = node.children.length-1; i >= 0; i--){
         //console.log(node.children[i])
-        node.children[1].remove();
+        node.children[0].remove();
     }
     eraseNextClassement();
     var httpRequest = new XMLHttpRequest();
@@ -126,9 +126,9 @@ function refreshPlayer(){
     var node = document.getElementById("playerData");
     //console.log("resfresh " + node.children.length);
     //console.log(node.children[0]);
-    for(var i = node.children.length-1; i > 0; i--){
+    for(var i = node.children.length-1; i >= 0; i--){
         //console.log(node.children[i])
-        node.children[1].remove();
+        node.children[0].remove();
     }
     eraseNextPlayer();
     var httpRequest = new XMLHttpRequest();
@@ -165,9 +165,9 @@ function refreshAdmin(){
     var node = document.getElementById("adminData");
     //console.log("resfresh " + node.children.length);
     //console.log(node.children[0]);
-    for(var i = node.children.length-1; i > 0; i--){
+    for(var i = node.children.length-1; i >= 0; i--){
         //console.log(node.children[i])
-        node.children[1].remove();
+        node.children[0].remove();
     }
     eraseNextAdmin();
     var httpRequest = new XMLHttpRequest();

@@ -554,7 +554,7 @@ public class MainController {
         if(!isAdminOrSuperAdmin(session)){
             return "ajaxAnswer/null";
         }
-        List<Player> list = playerDao.findAll(PageRequest.of(pageIndex, step)).toList();
+        List<Player> list = playerDao.findAllByOrderByPlayernameAsc(PageRequest.of(pageIndex, step));
         m.addAttribute("addNext", (pageIndex+1)*step < playerDao.count());
         List<User> res = new ArrayList<>();
         for(Player k : list){
@@ -572,7 +572,7 @@ public class MainController {
         if(!isSuperAdmin(session)){
             return "ajaxAnswer/null";
         }
-        List<Admin> list = adminDao.findAll(PageRequest.of(pageIndex, step)).toList();
+        List<Admin> list = adminDao.findAllByOrderByAdminnameAsc(PageRequest.of(pageIndex, step));
         m.addAttribute("addNext", (pageIndex+1)*step < adminDao.count());
         List<User> res = new ArrayList<>();
         for(Admin k : list){
