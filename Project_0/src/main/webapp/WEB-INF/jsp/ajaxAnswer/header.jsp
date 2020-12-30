@@ -24,11 +24,20 @@
                         <a class="dropdown-item" href="#">Flappy Bird</a>
                     </div>
                 </li>
-            </ul><span class="navbar-text actions">
+            </ul>
+            <span class="navbar-text actions">
+                <% if((Boolean)request.getAttribute("isLoggedIn")){
+                    if((Boolean)request.getAttribute("isAdminOrSuperAdmin")) { %>
+                            <a class="btn btn-light action-button" role="button" href="admin" style="font-weight: bold;">Modération</a>
+                        <% } %>
+                <!-- Bouton disconnect -->
+                        <a class="btn btn-light action-button" role="button" href="disconnect" style="background-color: red;">Disconnect</a>
+                <% } else { %>
                 <!-- Bouton de connexion -->
-                <a class="login" href="login" style="font-weight: bold;">Log In</a>
-            <!-- Bouton d'inscription -->
-                <a class="btn btn-light action-button" role="button" href="inscription">Sign Up</a>
+                    <a class="login" href="login" style="font-weight: bold;">Log In</a>
+                <!-- Bouton d'inscription -->
+                    <a class="btn btn-light action-button" role="button" href="inscription">Sign Up</a>
+                <% } %>
             </span>
         </div>
     </div>
@@ -46,6 +55,9 @@
                 <li class="nav-item"><a class="nav-link" href="<%=k.getName()%>" style="font-weight: bold;"><%=k.getName()%></a></li>
                 <%}%>
             </ul>
+            <form action="classement">
+                <button class="btn btn-primary pull-right" type="submit">Classements</button>
+            </form>
             <form class="form-inline mr-auto" target="_self">
                 <div class="form-group"><label for="search-field"></label></div>
             </form>

@@ -81,9 +81,11 @@ public class MainController {
     }
 
     @RequestMapping("/header")
-    public String header(Model m){
+    public String header(HttpSession session, Model m){
         //System.out.println("header Request");
         m.addAttribute("gameList", gameDao.findAll());
+        m.addAttribute("isLoggedIn", isLoggedIn(session));
+        m.addAttribute("isAdminOrSuperAdmin", isAdminOrSuperAdmin(session));
         return "ajaxAnswer/header";
     }
 
@@ -367,7 +369,7 @@ public class MainController {
     @RequestMapping("/disconnect")
     public String disconnect(HttpSession session){
         session.setAttribute("name", null);
-        return "session/disconnect";
+        return homepage();
     }
 
     @RequestMapping("/inscription")

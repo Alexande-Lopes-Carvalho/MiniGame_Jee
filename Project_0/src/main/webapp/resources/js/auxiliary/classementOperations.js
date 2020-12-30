@@ -48,9 +48,9 @@ function refreshClassement(){
     var node = document.getElementById("classementData");
     //console.log("resfresh " + node.children.length);
     //console.log(node.children[0]);
-    for(var i = node.children.length-1; i > 0; i--){
+    for(var i = node.children.length-1; i >= 0; i--){
         //console.log(node.children[i])
-        node.children[1].remove();
+        node.children[0].remove();
     }
     //console.log(selectedButton.id);
     eraseNextClassement();
