@@ -332,7 +332,7 @@ class Tree extends Drawable {
     }
     reset() {
         if(currentScreen == SCREEN.GAME) {
-            console.log("tree do reset");
+            //console.log("tree do reset");
             this.logQueue = new Array();
             this.cuttedLogQueue = new Array();
             this.putLog();
