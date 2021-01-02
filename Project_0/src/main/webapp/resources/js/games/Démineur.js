@@ -65,7 +65,7 @@ function draw(){ // contenu de la méthode a changer
                 drawArray(tabofCase);
                 fill(0, 255, 0);
                 textSize(12);
-                text("Game Over, Your time "+time+" seconds", 384, 380);
+                text("Game Over, Your time "+nf(time, 0, 2)+" seconds", 384, 380);
             }
         }
     }
@@ -263,7 +263,7 @@ function winGame() {
     }
     if (nbClicked == nbCase - nbMines) {
         win = true;
-        time = ceil((millis() - startTime) / 1000);
+        time = (millis() - startTime) / 1000;
         saveScore(currentGameName, time, time*1000);
     }
 }

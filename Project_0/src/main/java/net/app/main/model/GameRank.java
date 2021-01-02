@@ -15,7 +15,7 @@ public class GameRank {
   @Column(name="gamename")
   private String gamename;
   @Column(name="score")
-  private long score;
+  private double score;
   @Column(name="time")
   private long time;
 
@@ -48,11 +48,11 @@ public class GameRank {
   }
 
 
-  public long getScore() {
+  public double getScore() {
     return score;
   }
 
-  public void setScore(long score) {
+  public void setScore(double score) {
     this.score = score;
   }
 

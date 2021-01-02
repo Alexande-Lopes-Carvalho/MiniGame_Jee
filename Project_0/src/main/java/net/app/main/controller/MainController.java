@@ -291,26 +291,31 @@ public class MainController {
     public String saveScore(@RequestParam(name="game") String game,
                             @RequestParam(name="score") String score,
                             @RequestParam(name="time") String time, HttpSession session){
-        //System.out.println("pass " + playerName + " " + game + " " + score + " " + time);
         String playerName = (String)session.getAttribute("name");
+        //System.out.println("pass " + playerName + " " + game + " " + score + " " + time);
         if(playerName == null || !playerDao.existsById(playerName)){
             return "ajaxAnswer/null"; // utilisateur non connecté ou utilisateur connecté n'étant pas un joueur
         }
         GameRank k = gameRankDao.findOneByPlayernameAndGamename(playerName, game);
-        //System.out.println(k);
-        if(k == null || k.getScore() < Long.valueOf(score)) {
+        //System.out.println((k != null)? k.getPlayername() + " " + k.getScore() + " " + k.getIdgamerank() + " " + k.getTime() : "nullEntry");
+        if(k == null || isABetterScore(Double.valueOf(score), game, k)) {
             //System.out.println("adding/removing");
             if(k == null){
+                //System.out.println("creating ...");
                 k = new GameRank();
                 k.setPlayername(playerName);
                 k.setGamename(game);
             }
-            k.setScore(Long.valueOf(score));
+            k.setScore(Double.valueOf(score));
             k.setTime(Long.valueOf(time));
             gameRankDao.save(k); // modification de l'élément dans la table si deja existant ou ajout
         }
         updateStat(game, score, session);
         return "ajaxAnswer/null";
+    }
+
+    public boolean isABetterScore(Double score, String game, GameRank r){
+        return (gameDao.scoringMode(game))? r.getScore() < score :  r.getScore() > score;
     }
 
     public void updateStat(String game, String score, HttpSession session){
@@ -326,7 +331,7 @@ public class MainController {
             k.setGameplayed(0);
             k.setAveragescore(0);
         }
-        k.setAveragescore((k.getGameplayed()*k.getAveragescore()+Long.valueOf(score))/((float) k.getGameplayed()+1));
+        k.setAveragescore((k.getGameplayed()*k.getAveragescore()+Double.valueOf(score))/((float) k.getGameplayed()+1));
         k.setGameplayed(k.getGameplayed()+1);
         statDao.save(k);
     }
@@ -421,14 +426,15 @@ public class MainController {
         //List<GameRank> gameRanks = gameRankDao.findAll(Sort.by("score").descending());
         //gameRanks.removeIf(n-> (!n.getGamename().equals("snakeDummy")));
 
-        List<GameRank> gameRanks = gameRankDao.findByGamenameOrderByScoreDescPlayernameAsc(gamename);
+        List<GameRank> gameRanks = gameRankDao.findAllScoreOrdered(gamename, gameDao.scoringMode(gamename));
         //System.out.println("gameRanks SIZE"+gameRanks.size()+"gameName : "+gamename);
         //List<GameRank> gameRanksClassement = new ArrayList<>();
         TreeSet<GameRankEntry> gameRanksClassement = new TreeSet<GameRankEntry>();
 
+        boolean scoringMode = gameDao.scoringMode(gamename);
         int plusOuMoins=2;
         for(int k=0, l=Math.min(3,gameRanks.size()); k<l ; k++){
-            GameRankEntry g = new GameRankEntry(gameRanks.get(k),k+1);
+            GameRankEntry g = new GameRankEntry(gameRanks.get(k),k+1, scoringMode);
             gameRanksClassement.add(g);
         }
 
@@ -447,7 +453,7 @@ public class MainController {
             }else if(i==gameRanks.size()-1){
                 //return ""; // si connecté mais a pas encore joué ?
                 for(int k=0, l=Math.min(5,gameRanks.size()); k<l ; k++){
-                    GameRankEntry g = new GameRankEntry(gameRanks.get(k),k+1);
+                    GameRankEntry g = new GameRankEntry(gameRanks.get(k),k+1, scoringMode);
                     gameRanksClassement.add(g);
                 }
                 m.addAttribute("listeGlobalRank", gameRanksClassement);
@@ -465,12 +471,12 @@ public class MainController {
             //System.out.println("indexChercher:"+indexChercher);
             //System.out.println("plusOuMoins:"+plusOuMoins);
             if(i==0 && last != null && indexChercher-(last.getPosition()-1)>1 ){
-                GameRankEntry g = new GameRankEntry(null,last.getPosition()+1); // apres top 3
+                GameRankEntry g = new GameRankEntry(null,last.getPosition()+1, scoringMode); // apres top 3
                 gameRanksClassement.add(g);
             }
 
             if(indexChercher>=0 && indexChercher<gameRanks.size()){
-                GameRankEntry g = new GameRankEntry(gameRanks.get(indexChercher),indexChercher+1);
+                GameRankEntry g = new GameRankEntry(gameRanks.get(indexChercher),indexChercher+1, scoringMode);
                 gameRanksClassement.add(g);
                 //System.out.println("bool "+ gameRanksClassement.add(g));
                 //System.out.println("PASS g.egtPname:"+g.getGameRank().getPlayername());
@@ -523,7 +529,7 @@ public class MainController {
             return "ajaxAnswer/null";
         }
         //System.out.println("requestScore "+ game + " " + pageIndex + " " + step);
-        List<GameRank> list = gameRankDao.findByGamenameOrderByScoreDescPlayernameAsc(game, PageRequest.of(pageIndex, step));
+        List<GameRank> list = gameRankDao.findAllScoreOrdered(game, gameDao.scoringMode(game), PageRequest.of(pageIndex, step));
         //List<GameRank> ist = gameRankDao.findByGamename(game, PageRequest.of(startingIndex, step+1, Sort.by("score").descending().and(Sort.by("playername").ascending())));
         m.addAttribute("addNext", (pageIndex+1)*step < gameRankDao.countByGamename(game));
         //System.out.println("element received : " + list.size() /*+ " " + ist.size()*/);
@@ -539,7 +545,7 @@ public class MainController {
                                @RequestParam(name="step") int step,
                                Model m, HttpSession session){
         //System.out.println("requestScore "+ game + " " + pageIndex + " " + step);
-        List<GameRank> list = gameRankDao.findByGamenameOrderByScoreDescPlayernameAsc(game, PageRequest.of(pageIndex, step));
+        List<GameRank> list = gameRankDao.findAllScoreOrdered(game, gameDao.scoringMode(game), PageRequest.of(pageIndex, step));
         //List<GameRank> ist = gameRankDao.findByGamename(game, PageRequest.of(startingIndex, step+1, Sort.by("score").descending().and(Sort.by("playername").ascending())));
         m.addAttribute("addNext", (pageIndex+1)*step < gameRankDao.countByGamename(game));
         //System.out.println("element received : " + list.size() /*+ " " + ist.size()*/);

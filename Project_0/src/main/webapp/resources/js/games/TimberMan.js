@@ -200,8 +200,10 @@ function gamingScreen(){
 }
 
 function endingScreen(){
-    time = millis()-time;
-    saveScore(currentGameName, points, time);
+    if(currentScreen != SCREEN.ENDGAME) {
+        time = millis() - time;
+        saveScore(currentGameName, points, time);
+    }
 }
 
 function setScreenMode(value){
@@ -378,7 +380,7 @@ class Tree extends Drawable {
             k.setY(k.getY()+addY);
         }
         if(currentScreen == SCREEN.GAME && this.checkCollision()){
-            screenModeRequest.push(SCREEN.ENDGAME);
+            screenModeRequest.push(SCREEN.ENDGAME);/*console.log("call from Tree.calc()");*/
         }
         this.putLog();
     }
@@ -406,7 +408,7 @@ class Tree extends Drawable {
 
     cut(){
         if(this.checkCollision()){
-            screenModeRequest.push(SCREEN.ENDGAME);
+            screenModeRequest.push(SCREEN.ENDGAME);/*console.log("call from Tree.cut()");*/
             return;
         } else if(this.logQueue.length > 0 && this.logQueue[0].getY() > this.y - (logImage[0].height/2)/PIXEL) {
             points++;
@@ -684,7 +686,7 @@ class Timer extends Drawable {
         if(this.start) {
             this.value -= this.getSpeed() * timePassed;
             if (this.value < 0) {
-                screenModeRequest.push(SCREEN.ENDGAME);
+                screenModeRequest.push(SCREEN.ENDGAME);/*console.log("call from Timer.calc()");*/
             }
             //console.log(this.getSpeed());
         }

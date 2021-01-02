@@ -65,7 +65,7 @@ CREATE TABLE `gamerank` (
   `idgamerank` int NOT NULL AUTO_INCREMENT,
   `playername` varchar(45) NOT NULL,
   `gamename` varchar(45) NOT NULL,
-  `score` int NOT NULL,
+  `score` float NOT NULL,
   `time` int NOT NULL,
   PRIMARY KEY (`idgamerank`),
   KEY `fk_gamerank_game_idx` (`gamename`),

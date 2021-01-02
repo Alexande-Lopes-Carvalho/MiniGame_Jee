@@ -5,13 +5,15 @@ import net.app.main.model.GameRank;
 public class GameRankEntry implements Comparable<GameRankEntry>{
     private GameRank gameRank;
     private long position;
-    private long score;
+    private double score;
     private String playername;
+    private boolean scoringMode;
 
 
-    public GameRankEntry(GameRank gameRank, long position) {
+    public GameRankEntry(GameRank gameRank, long position, boolean _scoringMode) {
         this.gameRank = gameRank;
         this.position = position;
+        scoringMode = _scoringMode;
         if(gameRank!=null){
             score=gameRank.getScore();
             playername=gameRank.getPlayername();
@@ -47,7 +49,7 @@ public class GameRankEntry implements Comparable<GameRankEntry>{
         if(o.getGameRank()==null || this.getGameRank()==null){
             return (int) (this.getPosition()-o.getPosition());
         }else{
-            int r = (int)(o.getGameRank().getScore()-gameRank.getScore());
+            int r = ((scoringMode)? 1 : -1) * (int)(o.getGameRank().getScore()-gameRank.getScore());
             return (r != 0)? r : gameRank.getPlayername().compareTo(o.getGameRank().getPlayername());
         }
         // si res<0 => this<o
