@@ -10,7 +10,6 @@ INSERT INTO `game` VALUES ('snakeDummy','p');
 INSERT INTO `game` VALUES ('Snake','p');
 INSERT INTO `game` VALUES ('TimberMan','p');
 INSERT INTO `game` VALUES ('Démineur','t');
-INSERT INTO `game` VALUES ('FlappyBird','p');
 /*!40000 ALTER TABLE `game` ENABLE KEYS */;
 UNLOCK TABLES;
 
