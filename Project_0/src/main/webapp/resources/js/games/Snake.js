@@ -157,8 +157,8 @@ class Snake{
     afficherSnake(){
         textSize(20);
         for (let i=0; i<snakeTab.length; i++){
-            text("Snake long : "+snakeTab.length, (width/4)*2.5, (height/4)*3);
-            text("Snake"+snakeTab[i].getX()+","+snakeTab[i].getY(), width/2 ,20*i+100);
+            //text("Snake long : "+snakeTab.length, (width/4)*2.5, (height/4)*3);
+            //text("Snake"+snakeTab[i].getX()+","+snakeTab[i].getY(), width/2 ,20*i+100);
         }
     }
 
@@ -175,7 +175,7 @@ class Snake{
         } else if(k == LEFT_ARROW && this.getDirectionPrec()!=direction.RIGHT && this.getDirectionPrec()!=direction.LEFT){
             this.setDirection(direction.LEFT);
         }
-        text("Direction : "+this.getDirection(),50,50);
+        //text("Direction : "+this.getDirection(),50,50);
 
     }
 
@@ -243,7 +243,7 @@ class Snake{
                     snakeTab[k].setImage(tabImg[snakeTab[k].getOrientation()][snakeTab[k-1].getOrientation()]);
                     image(snakeTab[k].getImage(),snakeTab[k].getX(),snakeTab[k].getY());
                 }
-                text("OR(k="+k+")"+snakeTab[k].getOrientation(),30,30+15*k);
+                //text("OR(k="+k+")"+snakeTab[k].getOrientation(),30,30+15*k);
             }
         }
 }
@@ -254,7 +254,7 @@ function verifierMort() {// gérer les collisions avec lui meme
         for (let j = 0; j < snakeTab.length-1; j++) {
             if (i != j && snakeTab[i].getX() == snakeTab[j].getX() && snakeTab[i].getY() == snakeTab[j].getY()) {
                 hitItSelf = true;
-                text("hitItSelf", 50, 50);
+                //text("hitItSelf", 50, 50);
             }
         }
      }
@@ -385,7 +385,7 @@ function draw(){
     background(70);
     grille(); // fond à dessiner, donc en 1er
 
-    text("etatActuelJeu:"+etatActuelJeu.toString(),20,20);
+    //text("etatActuelJeu:"+etatActuelJeu.toString(),20,20);
     gestionButtons();
     if(etatActuelJeu==etatJeu.INGAME){
         snake.afficherSnake();
