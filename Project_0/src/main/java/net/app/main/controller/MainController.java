@@ -298,7 +298,7 @@ public class MainController {
         }
         GameRank k = gameRankDao.findOneByPlayernameAndGamename(playerName, game);
         //System.out.println((k != null)? k.getPlayername() + " " + k.getScore() + " " + k.getIdgamerank() + " " + k.getTime() : "nullEntry");
-        if(k == null || isABetterScore(Long.valueOf(score), game, k)) {
+        if(k == null || isABetterScore(Double.valueOf(score), game, k)) {
             //System.out.println("adding/removing");
             if(k == null){
                 //System.out.println("creating ...");
@@ -306,7 +306,7 @@ public class MainController {
                 k.setPlayername(playerName);
                 k.setGamename(game);
             }
-            k.setScore(Long.valueOf(score));
+            k.setScore(Double.valueOf(score));
             k.setTime(Long.valueOf(time));
             gameRankDao.save(k); // modification de l'élément dans la table si deja existant ou ajout
         }
@@ -314,7 +314,7 @@ public class MainController {
         return "ajaxAnswer/null";
     }
 
-    public boolean isABetterScore(Long score, String game, GameRank r){
+    public boolean isABetterScore(Double score, String game, GameRank r){
         return (gameDao.scoringMode(game))? r.getScore() < score :  r.getScore() > score;
     }
 
@@ -331,7 +331,7 @@ public class MainController {
             k.setGameplayed(0);
             k.setAveragescore(0);
         }
-        k.setAveragescore((k.getGameplayed()*k.getAveragescore()+Long.valueOf(score))/((float) k.getGameplayed()+1));
+        k.setAveragescore((k.getGameplayed()*k.getAveragescore()+Double.valueOf(score))/((float) k.getGameplayed()+1));
         k.setGameplayed(k.getGameplayed()+1);
         statDao.save(k);
     }

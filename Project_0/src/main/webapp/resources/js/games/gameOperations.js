@@ -21,7 +21,7 @@ function launchSaveScore(){
 
 function saveScore(game, score, time){
     var httpRequest = new XMLHttpRequest();
-    httpRequest.open("POST", "saveScore?game=" + game + "&score=" + parseInt(score) + "&time=" + parseInt(time), true);
+    httpRequest.open("POST", "saveScore?game=" + game + "&score=" + score + "&time=" + parseInt(time), true);
     httpRequest.send();
     httpRequest.onreadystatechange = function () {
         if(httpRequest.readyState == 4 && httpRequest.status == 200){

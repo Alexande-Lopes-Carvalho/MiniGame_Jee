@@ -5,7 +5,7 @@ import net.app.main.model.GameRank;
 public class GameRankEntry implements Comparable<GameRankEntry>{
     private GameRank gameRank;
     private long position;
-    private long score;
+    private double score;
     private String playername;
     private boolean scoringMode;
 
