@@ -30,11 +30,6 @@
                 <h3 class="name">Timber Man</h3>
                 <p class="description">Le Timber Man est un jeu casual. Le joueur doit couper le plus bois possible sans se faire toucher par une branche.&nbsp;</p>
             </div>
-            <div class="col-sm-6 col-lg-4 item" style="border-color: rgb(255,255,255);" onclick="location.href='FlappyBird'">
-                <img class="img-fluid" src="../../resources/assets/img/flappyBird.png">
-                <h3 class="name">Flappy Bird</h3>
-                <p class="description">Flappy Bird est un jeu d'obstacle développé par Nguyen Ha Dong. Le gameplay repose sur l'agilité du joueur. Le but faire avancer l'oiseau le plus loin possible sans toucher les tuyaux.</p>
-            </div>
         </div>
     </div>
 </div>
